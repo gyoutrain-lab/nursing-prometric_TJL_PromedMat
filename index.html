@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TJL PROMED ACADEMY 2026 - MASTER TRYOUT PROMETRIC (100 ITEMS)</title>
+    <title>TJL PROMED ACADEMY 2026 - MASTER TRYOUT PROMETRIC (120 ITEMS)</title>
 
     <!-- Open Graph / Social Media Preview Meta Tags (FB, WA, IG, LinkedIn) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gyoutrain-lab.github.io/nursing-prometric_TJL_PromedMat/">
-    <meta property="og:title" content="TJL PROMED ACADEMY 2026 - MASTER TRYOUT PROMETRIC (100 ITEMS)">
-    <meta property="og:description" content="Comprehensive 100-Question Nursing & Medical Master Tryout Prometric Simulator (SCFHS Threshold 60%). Features real-time timing, instant grading, rationales, and operator panel.">
+    <meta property="og:title" content="TJL PROMED ACADEMY 2026 - MASTER TRYOUT PROMETRIC (120 ITEMS)">
+    <meta property="og:description" content="Comprehensive 120-Question Nursing & Medical Master Tryout Prometric Simulator (SCFHS Threshold 60%). Features real-time timing, instant grading, rationales, and operator panel.">
     <meta property="og:image" content="https://raw.githubusercontent.com/gyoutrain-lab/nursing-prometric_TJL_PromedMat/main/tjl_promed.jpg">
     <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/gyoutrain-lab/nursing-prometric_TJL_PromedMat/main/tjl_promed.jpg">
     <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1000">
+    <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="TJL PROMED ACADEMY 2026 - MASTER TRYOUT PROMETRIC (100 ITEMS)">
-    <meta name="twitter:description" content="Comprehensive 100-Question Nursing & Medical Master Tryout Prometric Simulator (SCFHS Threshold 60%). Features real-time timing, instant grading, rationales, and operator panel.">
+    <meta name="twitter:title" content="TJL PROMED ACADEMY 2026 - MASTER TRYOUT PROMETRIC (120 ITEMS)">
+    <meta name="twitter:description" content="Comprehensive 120-Question Nursing & Medical Master Tryout Prometric Simulator (SCFHS Threshold 60%). Features real-time timing, instant grading, rationales, and operator panel.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/gyoutrain-lab/nursing-prometric_TJL_PromedMat/main/tjl_promed.jpg">
 
     <!-- Schema.org Structured Data (JSON-LD) -->
@@ -27,13 +27,13 @@
     {
       "@context": "https://schema.org",
       "@type": "Quiz",
-      "name": "TJL PROMED ACADEMY 2026 - MASTER TRYOUT PROMETRIC (100 ITEMS)",
+      "name": "TJL PROMED ACADEMY 2026 - MASTER TRYOUT PROMETRIC (120 ITEMS)",
       "description": "Master Examination Simulator for Prometric Medical & Nursing Certification (SCFHS Exam Code 24-0022/0023).",
       "image": "https://raw.githubusercontent.com/gyoutrain-lab/nursing-prometric_TJL_PromedMat/main/tjl_promed.jpg",
       "educationalUse": "Assessment",
       "hasPart": {
         "@type": "Question",
-        "name": "Prometric Master Test Bank (100 Questions)"
+        "name": "Prometric Master Test Bank (120 Questions)"
       }
     }
     </script>
@@ -871,7 +871,7 @@
     },
     {
         "id": 34,
-        "question": "A new mother received epidural anesthesia during labor and had a forceps delivery after pushing 2 hours. At 6 hours PP, her systolic blood pressure has dropped 20 points, her diastolic BP has dropped 10 points, and her pulse is 100 beats per minute. The client is anxious and restless. On further assessment, a vulvar hematoma is verified. After notifying the health care provider, the nurse immediately plans to:",
+        "question": "A new mother received epidural anesthesia during labor and had a forceps delivery after pushing 2 hours. At 6 hours PP, her systolic blood pressure has dropped 20 points, her diastolic BP has dropped 10 points, and her pulse is 120 beats per minute. The client is anxious and restless. On further assessment, a vulvar hematoma is verified. After notifying the health care provider, the nurse immediately plans to:",
         "options": {
             "A": "Monitor fundal height.",
             "B": "Apply perineal pressure.",
@@ -1705,8 +1705,29 @@
         wrapper.innerHTML = html;
     }
 
-    // Submit Exam Logic
+    // Submit Exam Logic - Strictly Requires All Questions to be Answered
     function submitExam() {
+        let unanswered = [];
+        questionsData.forEach((item) => {
+            const selected = document.querySelector(`input[name="q-${item.id}"]:checked`);
+            if (!selected) {
+                unanswered.push(item.id);
+            }
+        });
+
+        if (unanswered.length > 0) {
+            const firstUnansweredCard = document.getElementById(`card-${unanswered[0]}`);
+            if (firstUnansweredCard) {
+                firstUnansweredCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                firstUnansweredCard.style.outline = "2px solid var(--danger)";
+                setTimeout(() => {
+                    firstUnansweredCard.style.outline = "none";
+                }, 3000);
+            }
+            alert(`Submission Error: You have ${unanswered.length} unanswered question(s) remaining (e.g., Question #${unanswered[0]}). Please complete all items before submitting.`);
+            return;
+        }
+
         let score = 0;
         let total = questionsData.length;
 
@@ -1723,8 +1744,6 @@
                 } else {
                     ratBox.className = "rationale-box rationale-incorrect";
                 }
-            } else {
-                ratBox.className = "rationale-box rationale-incorrect";
             }
         });
 
